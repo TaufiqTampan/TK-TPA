@@ -1,30 +1,43 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
 import { Card, CardContent } from '@/components/ui/card';
 import { Star, Quote } from 'lucide-react';
-import { supabase, type Testimonial } from '@/lib/supabase';
+import { type Testimonial } from '@/lib/api';
 
-export function TestimonialsSection() {
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+// TODO: Replace this with a proper API call once the backend endpoint is available.
+const testimonials: Testimonial[] = [
+  {
+    id: '1',
+    nama_orang_tua: 'Ibu Sarah',
+    nama_anak: 'Ahmad',
+    testimoni: 'Anak saya sangat senang sekolah di sini. Guru-gurunya sabar dan lingkungannya sangat mendukung.',
+    rating: 5,
+    is_published: true,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: '2',
+    nama_orang_tua: 'Bapak Wijaya',
+    nama_anak: 'Fitri',
+    testimoni: 'Metode pembelajarannya kreatif, anak saya jadi lebih semangat belajar, terutama dalam menghafal Al-Quran.',
+    rating: 5,
+    is_published: true,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: '3',
+    nama_orang_tua: 'Ibu Lestari',
+    nama_anak: 'Budi',
+    testimoni: 'Fasilitasnya lengkap dan bersih. Program outing class-nya juga sangat bagus untuk pengalaman anak.',
+    rating: 4,
+    is_published: true,
+    created_at: new Date().toISOString(),
+  },
+];
 
-  useEffect(() => {
-    async function fetchTestimonials() {
-      const { data } = await supabase
-        .from('testimonials')
-        .select('*')
-        .eq('is_published', true)
-        .order('created_at', { ascending: false });
-
-      if (data) {
-        setTestimonials(data);
-      }
-    }
-    fetchTestimonials();
-  }, []);
-
+export const TestimonialsSection = () => {
   return (
     <SectionWrapper id="testimoni" className="bg-gradient-to-br from-primary/5 to-secondary/10">
       <motion.div
@@ -40,7 +53,7 @@ export function TestimonialsSection() {
         </p>
       </motion.div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {testimonials.map((testimonial, index) => (
           <motion.div
             key={testimonial.id}

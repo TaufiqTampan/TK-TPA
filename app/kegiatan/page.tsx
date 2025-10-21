@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, MapPin } from 'lucide-react';
-import { supabase, type Activity } from '@/lib/supabase';
+import { Calendar } from 'lucide-react';
+import { getActivities, type Activity } from '@/lib/api';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 
@@ -27,19 +27,12 @@ export default function KegiatanPage() {
   useEffect(() => {
     async function fetchActivities() {
       setLoading(true);
-      let query = supabase
-        .from('activities')
-        .select('*')
-        .order('date', { ascending: false });
+      const result = await getActivities(selectedCategory);
 
-      if (selectedCategory !== 'all') {
-        query = query.eq('category', selectedCategory);
-      }
-
-      const { data } = await query;
-
-      if (data) {
-        setActivities(data);
+      if (result.success && Array.isArray(result.data)) {
+        setActivities(result.data);
+      } else {
+        setActivities([]); // Clear activities on failure or if data is not an array
       }
       setLoading(false);
     }
@@ -98,7 +91,7 @@ export default function KegiatanPage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <Card key={i} className="overflow-hidden">
-                <div className="bg-muted animate-pulse h-48"></div>
+                <div className="bg-muted animate-pulse h-48 w-full"></div>
                 <CardContent className="p-6 space-y-3">
                   <div className="h-4 bg-muted animate-pulse rounded"></div>
                   <div className="h-4 bg-muted animate-pulse rounded w-3/4"></div>
@@ -122,7 +115,7 @@ export default function KegiatanPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <Card className="overflow-hidden border-2 hover:border-primary transition-all hover:shadow-lg group h-full">
+                <Card className="overflow-hidden border-2 hover:border-primary transition-all hover:shadow-lg group h-full flex flex-col">
                   <div className="relative aspect-video overflow-hidden">
                     <img
                       src={activity.image_url || 'https://images.pexels.com/photos/8923089/pexels-photo-8923089.jpeg?auto=compress&cs=tinysrgb&w=800'}
@@ -135,14 +128,14 @@ export default function KegiatanPage() {
                       </Badge>
                     </div>
                   </div>
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-semibold mb-2 line-clamp-2">
+                  <CardContent className="p-6 flex flex-col flex-grow">
+                    <h3 className="text-xl font-semibold mb-2 line-clamp-2 flex-grow">
                       {activity.title}
                     </h3>
                     <p className="text-muted-foreground text-sm mb-4 line-clamp-3 leading-relaxed">
                       {activity.description}
                     </p>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground mt-auto">
                       <Calendar className="h-4 w-4" />
                       <span>
                         {format(new Date(activity.date), 'dd MMMM yyyy', { locale: id })}

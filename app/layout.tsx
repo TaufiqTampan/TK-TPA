@@ -2,7 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
   title: 'TK/TPA Al-Ikhlas - Lembaga Pendidikan Islam Anak',
@@ -21,7 +21,7 @@ export default function RootLayout({
         <Navbar />
         <main className="pt-16">{children}</main>
         <Footer />
-        <Toaster position="top-center" />
+        <Toaster />
       </body>
     </html>
   );

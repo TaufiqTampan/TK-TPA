@@ -18,64 +18,64 @@ import {
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import toast from 'react-hot-toast';
-import { supabase } from '@/lib/supabase';
-import { CheckCircle, User, Phone, MapPin, Users } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { submitRegistration } from '@/lib/api';
+import { CheckCircle, MapPin, Phone, User, Users } from 'lucide-react';
 
-const registrationSchema = z.object({
-  nama_lengkap: z.string().min(3, 'Nama lengkap minimal 3 karakter'),
-  umur: z.string().min(1, 'Umur harus diisi'),
-  jenis_kelamin: z.string().min(1, 'Jenis kelamin harus dipilih'),
-  alamat: z.string().min(10, 'Alamat minimal 10 karakter'),
-  nama_orang_tua: z.string().min(3, 'Nama orang tua minimal 3 karakter'),
-  nomor_hp: z.string().min(10, 'Nomor HP minimal 10 digit'),
+const formSchema = z.object({
+  nama_lengkap: z.string().min(3, 'Nama lengkap harus diisi'),
+  umur: z.coerce.number().min(3, 'Umur harus diisi').max(15, 'Umur tidak valid'),
+  jenis_kelamin: z.string({ required_error: 'Jenis kelamin harus dipilih' }),
+  alamat: z.string().min(10, 'Alamat harus diisi'),
+  nama_orang_tua: z.string().min(3, 'Nama orang tua harus diisi'),
+  nomor_hp: z.string().min(10, 'Nomor HP harus diisi'),
 });
 
-type RegistrationFormData = z.infer<typeof registrationSchema>;
-
 export default function PendaftaranPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      nama_lengkap: '',
+      umur: undefined,
+      alamat: '',
+      nama_orang_tua: '',
+      nomor_hp: '',
+    },
+  });
 
   const {
     register,
     handleSubmit,
+    formState: { errors },
     setValue,
     watch,
     reset,
-    formState: { errors },
-  } = useForm<RegistrationFormData>({
-    resolver: zodResolver(registrationSchema),
-  });
+  } = form;
 
   const jenisKelamin = watch('jenis_kelamin');
 
-  const onSubmit = async (data: RegistrationFormData) => {
-    setIsSubmitting(true);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setLoading(true);
+    const result = await submitRegistration(data);
+    setLoading(false);
 
-    try {
-      const { error } = await supabase.from('registrations').insert([
-        {
-          nama_lengkap: data.nama_lengkap,
-          umur: parseInt(data.umur),
-          jenis_kelamin: data.jenis_kelamin,
-          alamat: data.alamat,
-          nama_orang_tua: data.nama_orang_tua,
-          nomor_hp: data.nomor_hp,
-          status: 'pending',
-        },
-      ]);
-
-      if (error) throw error;
-
-      toast.success('Pendaftaran berhasil! Kami akan menghubungi Anda segera.');
+    if (result.success) {
       setIsSuccess(true);
+      toast({
+        title: 'Pendaftaran Berhasil',
+        description: 'Terima kasih telah mendaftar. Kami akan segera menghubungi Anda.',
+      });
       reset();
-    } catch (error) {
-      console.error('Error:', error);
-      toast.error('Terjadi kesalahan saat pendaftaran. Silakan coba lagi.');
-    } finally {
-      setIsSubmitting(false);
+    } else {
+      toast({
+        title: 'Pendaftaran Gagal',
+        description: 'Terjadi kesalahan saat mengirim data. Silakan coba lagi.',
+        variant: 'destructive',
+      });
     }
   };
 
@@ -304,9 +304,9 @@ export default function PendaftaranPage() {
                     <Button
                       type="submit"
                       className="w-full bg-primary hover:bg-primary/90"
-                      disabled={isSubmitting}
+                      disabled={loading}
                     >
-                      {isSubmitting ? 'Mengirim...' : 'Daftar Sekarang'}
+                      {loading ? 'Mengirim...' : 'Daftar Sekarang'}
                     </Button>
                   </form>
                 </CardContent>
