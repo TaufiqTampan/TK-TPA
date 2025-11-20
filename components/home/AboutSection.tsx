@@ -10,7 +10,7 @@ export function AboutSection() {
     {
       icon: Eye,
       title: 'Visi',
-      description: 'Menjadi lembaga pendidikan Islam terdepan dalam mencetak generasi Qur\'ani yang berakhlak mulia dan berprestasi.',
+      description: 'Menjadi lembaga pendidikan Islam terdepan dalam mencetak generasi Qur&apos;ani yang berakhlak mulia dan berprestasi.',
     },
     {
       icon: Target,
@@ -35,7 +35,7 @@ export function AboutSection() {
       >
         <h2 className="text-3xl md:text-4xl font-bold mb-4">Tentang TK/TPA Al-Ikhlas</h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Lembaga pendidikan Islam yang berdedikasi untuk membentuk generasi Qur'ani sejak dini dengan metode pembelajaran yang menyenangkan dan efektif.
+          Lembaga pendidikan Islam yang berdedikasi untuk membentuk generasi Qur&apos;ani sejak dini dengan metode pembelajaran yang menyenangkan dan efektif.
         </p>
       </motion.div>
 
@@ -92,9 +92,9 @@ export function AboutSection() {
         </div>
         <div className="order-1 md:order-2">
           <img
-            src="https://images.pexels.com/photos/8923173/pexels-photo-8923173.jpeg?auto=compress&cs=tinysrgb&w=800"
+            src="https://i.pinimg.com/736x/2e/43/f9/2e43f9a52d90882ea05e021c757b45c7.jpg"
             alt="Suasana belajar TPA"
-            className="w-full h-[400px] object-cover rounded-2xl shadow-lg"
+            className="w-full h-[400px] object-contain rounded-2xl shadow-lg"
           />
         </div>
       </motion.div>

@@ -74,7 +74,7 @@ export default function ProfilPage() {
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-6">Profil Lembaga</h1>
             <p className="text-lg text-muted-foreground">
-              TK/TPA Al-Ikhlas berdiri sejak tahun 2016 dengan komitmen untuk mencetak generasi Qur'ani yang berakhlak mulia dan berprestasi.
+              TK/TPA Al-Ikhlas berdiri sejak tahun 2016 dengan komitmen untuk mencetak generasi Qur&apos;ani yang berakhlak mulia dan berprestasi.
             </p>
           </motion.div>
         </div>
@@ -89,9 +89,9 @@ export default function ProfilPage() {
             viewport={{ once: true }}
           >
             <img
-              src="https://images.pexels.com/photos/8923141/pexels-photo-8923141.jpeg?auto=compress&cs=tinysrgb&w=800"
+              src="https://i.pinimg.com/736x/bf/a4/cc/bfa4cc75a1d5e9189e59e6a5c9bf28ac.jpg"
               alt="Gedung TPA"
-              className="w-full h-[400px] object-cover rounded-2xl shadow-lg"
+              className="w-full h-[400px] object-contain rounded-2xl shadow-lg"
             />
           </motion.div>
           <motion.div
@@ -131,7 +131,7 @@ export default function ProfilPage() {
                 </div>
                 <h3 className="text-2xl font-semibold mb-4">Visi</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Menjadi lembaga pendidikan Islam terdepan dalam mencetak generasi Qur'ani yang berakhlak mulia, cerdas, dan berprestasi untuk kemuliaan Islam dan kemajuan bangsa.
+                  Menjadi lembaga pendidikan Islam terdepan dalam mencetak generasi Qur&apos;ani yang berakhlak mulia, cerdas, dan berprestasi untuk kemuliaan Islam dan kemajuan bangsa.
                 </p>
               </CardContent>
             </Card>

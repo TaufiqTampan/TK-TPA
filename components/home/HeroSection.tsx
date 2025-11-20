@@ -23,7 +23,7 @@ export function HeroSection() {
             </div>
 
             <h1 className="text-4xl md:text-6xl font-bold leading-tight text-balance">
-              Membentuk Generasi Qur'ani yang Berakhlak Mulia
+              Membentuk Generasi Qur&apos;ani yang Berakhlak Mulia
             </h1>
 
             <p className="text-lg text-muted-foreground leading-relaxed">
@@ -80,9 +80,9 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative"
           >
-            <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl">
+            <div className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl">
               <img
-                src="https://images.pexels.com/photos/8923089/pexels-photo-8923089.jpeg?auto=compress&cs=tinysrgb&w=800"
+                src="/images/hero-image.jpg"
                 alt="Anak-anak belajar Al-Quran"
                 className="w-full h-full object-cover"
               />

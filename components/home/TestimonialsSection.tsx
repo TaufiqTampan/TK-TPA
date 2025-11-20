@@ -73,7 +73,7 @@ export const TestimonialsSection = () => {
                 </div>
 
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                  "{testimonial.testimoni}"
+                  &quot;{testimonial.testimoni}&quot;
                 </p>
 
                 <div className="pt-4 border-t border-border">
